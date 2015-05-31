@@ -1,0 +1,79 @@
+{% extends 'budget/base.html' %}
+
+{% if user.is_authenticated %}
+    {% block title %}{{ mes }}{% endblock %}
+{% endif %}
+
+{% block body_block %}
+    <div class="hero-unit">
+        <p class="lead">{{ boldmessage }}</p>
+    </div>
+        <div class="row-fluid">
+            {% if expenditures %}
+                <div class="span12">
+                    <h3>Already recorded expenses</h3>
+                    <table data-toggle="table" data-classes="table table-hover table-condensed"
+       data-striped="true">
+                    <thead>
+                        <tr>
+                            <th>{{ "Name" }}</th>
+                            <th>{{ "Value" }} </th>
+                            <th>{{ "Day" }}</th>
+                            <th>{{ "Category" }}</th>
+{#                            <th>{{ "User" }}</th>#}
+                        </tr>
+                        </thead>
+                        {% for expense in expenditures %}
+                            <tr>
+                                <td>{{ expense.gastos_name }}</td>
+                                <td>{{ expense.gastos_value }}</td>
+                                <td>{{ expense.gastos_expense_date | date:"d"}}</td>
+                                <td>{{ expense.gastos_category }}</td>
+{#                                <td>{{ expense.gastos_author }}</td>#}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <h3>Statistics</h3>
+                        <dl class="dl-horizontal">
+                            <dt>Sum</dt>
+                            <dd>{{ statistics.sum }}</dd>
+                            <dt>Average per day</dt>
+                            <dd>{{ statistics.avg_day }}</dd>
+                            <dt>Average per Entry</dt>
+                            <dd>{{ statistics.avg_entry }}</dd>
+                            <dt>Entries</dt>
+                            <dd>{{ statistics.count_entry }}</dd>
+                            <dt>Days</dt>
+                            <dd>{{ statistics.count_day }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row-fluid">
+                    <div class="span12">
+                        <strong>No expenses recorded in this month.</strong>
+
+                        <p>Add more expenses or browse to your desired month by using the buttons below or entering the
+                            appropriate URL.</p>
+                    </div>
+                </div>
+            {% endif %}
+        <div class="row-fluid">
+            <div class="span4">
+                <a href="/budget/{{ date_links_back }}/" class="btn btn-large btn-info btn-block">See previous
+                    month</a>
+            </div>
+            <div class="span4">
+                <a href="/budget/" class="btn btn-large btn-info btn-block">Current
+                    month</a>
+            </div>
+            <div class="span4">
+                <a href="/budget/{{ date_links_next }}/" class="btn btn-large btn-info btn-block">See next month</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
